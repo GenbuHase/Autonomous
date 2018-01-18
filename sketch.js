@@ -1,28 +1,22 @@
 "use strict";
 
-var vehicles = [];
-var food = [];
-var poison = [];
+const vehicles = [];
+const food = [];
+const poison = [];
 
 function setup() {
 	createCanvas(windowWidth, windowHeight);
 
 	for (let i = 0; i < 10; i++) {
-		x = random(width);
-		y = random(height);
-		vehicles[i] = new Vehicle(x, y);
+		vehicles[i] = new Vehicle(random(width), random(height));
 	}
 
 	for (let i = 0; i < 40; i++) {
-		var x = random(width);
-		var y = random(height);
-		food.push(createVector(x, y));
+		food.push(createVector(random(width), random(height)));
 	}
 
 	for (let i = 0; i < 20; i++) {
-		var x = random(width);
-		var y = random(height);
-		poison.push(createVector(x, y));
+		poison.push(createVector(random(width), random(height)));
 	}
 }
 
@@ -71,7 +65,7 @@ function draw() {
 			vehicles.push(newVehicle);
 		}
 
-		if (vehicles[i].dead()) {
+		if (vehicles[i].isDead) {
 			var x = vehicles[i].position.x;
 			var y = vehicles[i].position.y;
 			

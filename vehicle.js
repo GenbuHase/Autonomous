@@ -1,49 +1,54 @@
-var mr = 0.01;
+const mr = 0.01;
 
-function Vehicle(x, y, dna) {
-	this.acceleration = createVector(0, 0);
-	this.velocity = createVector(0, -2);
-	this.position = createVector(x, y);
-	this.r = 4;
-	this.maxspeed = 5;
-	this.maxforce = 0.5;
+class Vehicle {
+	constructor (x = 0, y = 0, dna) {
+		this.acceleration = createVector(0, 0);
+		this.velocity = createVector(0, -2);
+		this.position = createVector(x, y);
+		this.r = 4;
+		this.maxspeed = 5;
+		this.maxforce = 0.5;
 
-	this.health = 1;
+		this.health = 1;
 
-	this.dna = [];
-	if (dna === undefined) {
-		// food weight
-		this.dna[0] = random(-2, 2);
-		// poison weight
-		this.dna[1] = random(-2, 2);
-		// food perception
-		this.dna[2] = random(0, 100);
-		// poison perception
-		this.dna[3] = random(0, 100);
-	} else {
-		this.dna[0] = dna[0];
-		if (random(1) < mr) {
-			this.dna[0] += random(-0.1, 0.1);
-		}
-		this.dna[1] = dna[1];
-		if (random(1) < mr) {
-			this.dna[1] += random(-0.1, 0.1);
-		}
-		this.dna[2] = dna[2];
-		if (random(2) < mr) {
-			this.dna[0] += random(-10, 10);
-		}
-		this.dna[3] = dna[3];
-		if (random(3) < mr) {
-			this.dna[1] += random(-10, 10);
+		this.dna = [];
+
+		if (!dna) {
+			// food weight
+			this.dna[0] = random(-2, 2);
+			// poison weight
+			this.dna[1] = random(-2, 2);
+			// food perception
+			this.dna[2] = random(0, 100);
+			// poison perception
+			this.dna[3] = random(0, 100);
+		} else {
+			this.dna[0] = dna[0];
+			if (random(1) < mr) {
+				this.dna[0] += random(-0.1, 0.1);
+			}
+			
+			this.dna[1] = dna[1];
+			if (random(1) < mr) {
+				this.dna[1] += random(-0.1, 0.1);
+			}
+
+			this.dna[2] = dna[2];
+			if (random(2) < mr) {
+				this.dna[0] += random(-10, 10);
+			}
+
+			this.dna[3] = dna[3];
+			if (random(3) < mr) {
+				this.dna[1] += random(-10, 10);
+			}
 		}
 	}
 
-	/**
-	 * UPDATE FUNC
-	 **/
+	get isDead () { return this.health < 0 }
+
 	// Method to update location
-	this.update = function () {
+	update () {
 		this.health -= 0.01;
 
 		// Update velocity
@@ -53,43 +58,36 @@ function Vehicle(x, y, dna) {
 		this.position.add(this.velocity);
 		// Reset accelerationelertion to 0 each cycle
 		this.acceleration.mult(0);
-	};
+	}
 
-	/**
-	 * BEHAVIORS Func
-	 **/
-	this.behaviors = function (good, bad) {
-		var steerG = this.eat(good, 0.3, this.dna[2]);
-		var steerB = this.eat(bad, -0.7, this.dna[3]);
+	behaviors (good, bad) {
+		let steerG = this.eat(good, 0.3, this.dna[2]),
+			steerB = this.eat(bad, -0.7, this.dna[3]);
+
 		steerG.mult(this.dna[0]);
 		steerB.mult(this.dna[1]);
 
 		this.applyForce(steerG);
 		this.applyForce(steerB);
-	};
+	}
 
-	this.applyForce = function (force) {
+	applyForce (force) {
 		// We could add mass here if we want A = F / M
 		this.acceleration.add(force);
-	};
+	}
 
-	/**
-	 * CLONE
-	 **/
-	this.clone = function () {
+	clone () {
 		if (random(1) < 0.005) {
 			return new Vehicle(this.position.x, this.position.y, this.dna);
 		} else {
 			return null;
 		}
-	};
+	}
 
-	/**
-	 * EAT Func
-	 **/
-	this.eat = function (list, nutrition, perception) {
+	eat (list, nutrition, perception) {
 		var record = Infinity;
 		var closest = null;
+
 		for (var i = list.length - 1; i >= 0; i--) {
 			var d = this.position.dist(list[i]);
 
@@ -111,14 +109,11 @@ function Vehicle(x, y, dna) {
 		}
 
 		return createVector(0, 0);
-	};
+	}
 
-	/**
-	 * SEEK FUNC
-	 **/
 	// A method that calculates a steering force towards a target
 	// STEER = DESIRED MINUS VELOCITY
-	this.seek = function (target) {
+	seek (target) {
 		var desired = p5.Vector.sub(target, this.position); // A vector pointing from the location to the target
 
 		// Scale to maximum speed
@@ -130,16 +125,9 @@ function Vehicle(x, y, dna) {
 
 		return steer;
 		// this.applyForce(steer);
-	};
+	}
 
-	this.dead = function () {
-		return this.health < 0;
-	};
-
-	/**
-	 * DISPLAY FUNC
-	 **/
-	this.display = function () {
+	display () {
 		// Draw a triangle rotated in the direction of velocity
 		var theta = this.velocity.heading() + PI / 2;
 
@@ -171,12 +159,9 @@ function Vehicle(x, y, dna) {
 		endShape(CLOSE);
 
 		pop();
-	};
+	}
 
-	/**
-	 * BOUNDARIES FUNC
-	 **/
-	this.boundaries = function () {
+	boundaries () {
 		var desired = null;
 		var d = 25;
 
@@ -199,5 +184,5 @@ function Vehicle(x, y, dna) {
 			steer.limit(this.maxforce);
 			this.applyForce(steer);
 		}
-	};
+	}
 }
