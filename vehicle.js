@@ -85,11 +85,11 @@ class Vehicle {
 	}
 
 	eat (list, nutrition, perception) {
-		var record = Infinity;
-		var closest = null;
+		let record = Infinity;
+		let closest = null;
 
-		for (var i = list.length - 1; i >= 0; i--) {
-			var d = this.position.dist(list[i]);
+		for (let i = list.length - 1; i >= 0; i--) {
+			let d = this.position.dist(list[i]);
 
 			if (d < this.maxspeed) {
 				list.splice(i, 1);
@@ -114,13 +114,13 @@ class Vehicle {
 	// A method that calculates a steering force towards a target
 	// STEER = DESIRED MINUS VELOCITY
 	seek (target) {
-		var desired = p5.Vector.sub(target, this.position); // A vector pointing from the location to the target
+		let desired = p5.Vector.sub(target, this.position); // A vector pointing from the location to the target
 
 		// Scale to maximum speed
 		desired.setMag(this.maxspeed);
 
 		// Steering = Desired minus velocity
-		var steer = p5.Vector.sub(desired, this.velocity);
+		let steer = p5.Vector.sub(desired, this.velocity);
 		steer.limit(this.maxforce); // Limit to maximum steering force
 
 		return steer;
@@ -129,7 +129,7 @@ class Vehicle {
 
 	display () {
 		// Draw a triangle rotated in the direction of velocity
-		var theta = this.velocity.heading() + PI / 2;
+		let theta = this.velocity.heading() + PI / 2;
 
 		push();
 		translate(this.position.x, this.position.y);
@@ -145,9 +145,9 @@ class Vehicle {
 		line(0, 0, 0, -this.dna[1] * 25);
 		ellipse(0, 0, this.dna[3] * 2, this.dna[3] * 2);
 
-		var gr = color(0, 255, 0);
-		var rd = color(255, 0, 0);
-		var col = lerpColor(rd, gr, this.health);
+		let gr = color(0, 255, 0);
+		let rd = color(255, 0, 0);
+		let col = lerpColor(rd, gr, this.health);
 
 		fill(col);
 		stroke(col);
@@ -162,8 +162,8 @@ class Vehicle {
 	}
 
 	boundaries () {
-		var desired = null;
-		var d = 25;
+		let desired = null;
+		let d = 25;
 
 		if (this.position.x < d) {
 			desired = createVector(this.maxspeed, this.velocity.y);
@@ -180,7 +180,8 @@ class Vehicle {
 		if (desired !== null) {
 			desired.normalize();
 			desired.mult(this.maxspeed);
-			var steer = p5.Vector.sub(desired, this.velocity);
+
+			let steer = p5.Vector.sub(desired, this.velocity);
 			steer.limit(this.maxforce);
 			this.applyForce(steer);
 		}

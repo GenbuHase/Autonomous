@@ -29,15 +29,11 @@ function draw() {
 	fill(255);
 
 	if (random(1) < 0.1) {
-		var x = random(width);
-		var y = random(height);
-		food.push(createVector(x, y));
+		food.push(createVector(random(width), random(height)));
 	}
 
 	if (random(1) < 0.01) {
-		var x = random(width);
-		var y = random(height);
-		poison.push(createVector(x, y));
+		poison.push(createVector(random(width), random(height)));
 	}
 
 
@@ -59,17 +55,14 @@ function draw() {
 		vehicles[i].update();
 		vehicles[i].display();
 
-		var newVehicle = vehicles[i].clone();
+		let newVehicle = vehicles[i].clone();
 
 		if (newVehicle != null) {
 			vehicles.push(newVehicle);
 		}
 
 		if (vehicles[i].isDead) {
-			var x = vehicles[i].position.x;
-			var y = vehicles[i].position.y;
-			
-			food.push(createVector(x, y));
+			food.push(createVector(vehicles[i].position.x, vehicles[i].position.y));
 			vehicles.splice(i, 1);
 		}
 	}
