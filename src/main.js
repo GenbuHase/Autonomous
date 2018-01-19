@@ -47,9 +47,10 @@ function draw() {
 		ellipse(poison[i].x, poison[i].y, 8, 8);
 	}
 
-	for (var i = vehicles.length - 1; i >= 0; i--) {
+	for (let i = 0; i < vehicles.length; i++) {
 		vehicles[i].boundaries();
 		vehicles[i].behaviors(food, poison);
+		
 		// Call the appropriate steering behaviors for our agents
 		// vehicle.seek(food);
 		vehicles[i].update();
