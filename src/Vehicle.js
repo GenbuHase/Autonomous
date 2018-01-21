@@ -15,8 +15,8 @@ class Vehicle {
 			
 			if (random(1) < mr) this.dna[0] += random(-0.1, 0.1);
 			if (random(1) < mr) this.dna[1] += random(-0.1, 0.1);
-			if (random(2) < mr) this.dna[0] += random(-10, 10);
-			if (random(3) < mr) this.dna[1] += random(-10, 10);
+			if (random(2) < mr) this.dna[2] += random(-10, 10);
+			if (random(3) < mr) this.dna[3] += random(-10, 10);
 		}
 	}
 
