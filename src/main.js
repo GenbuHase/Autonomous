@@ -21,13 +21,15 @@ function setup() {
 
 
 
-	window.open("./Controller.html", "Controller", [
-		`Width=${width / 5 * 3}`,
-		`Height=${height / 8 * 3}`,
-		
-		"Left=0",
-		"Top=0"
-	].join(", "));
+	if (location.querySort().DEBUG) {
+		window.open("./Controller.html", "Controller", [
+			`Width=${width / 5 * 3}`,
+			`Height=${height / 8 * 3}`,
+			
+			"Left=0",
+			"Top=0"
+		].join(", "));
+	}
 }
 
 function mouseDragged() {

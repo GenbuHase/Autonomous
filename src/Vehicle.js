@@ -1,4 +1,4 @@
-const mr = 0.01;
+const MUTATIONRATE = 0.01;
 
 class Vehicle {
 	constructor (x = 0, y = 0, dna) {
@@ -13,10 +13,10 @@ class Vehicle {
 		} else {
 			this.dna = dna;
 			
-			if (random(1) < mr) this.dna[0] += random(-0.1, 0.1);
-			if (random(1) < mr) this.dna[1] += random(-0.1, 0.1);
-			if (random(2) < mr) this.dna[2] += random(-10, 10);
-			if (random(3) < mr) this.dna[3] += random(-10, 10);
+			if (random(1) < MUTATIONRATE) this.dna[0] += random(-0.1, 0.1);
+			if (random(1) < MUTATIONRATE) this.dna[1] += random(-0.1, 0.1);
+			if (random(2) < MUTATIONRATE) this.dna[2] += random(-10, 10);
+			if (random(2) < MUTATIONRATE) this.dna[3] += random(-10, 10);
 		}
 	}
 
@@ -113,13 +113,16 @@ class Vehicle {
 		translate(this.position.x, this.position.y);
 		rotate(theta);
 
-		strokeWeight(3);
-		stroke(0, 255, 0);
 		noFill();
+		stroke(0, 255, 0);
+		strokeWeight(3);
+
 		line(0, 0, 0, -this.dna[0] * 25);
 		ellipse(0, 0, this.dna[2] * 2, this.dna[2] * 2);
-		strokeWeight(2);
+
 		stroke(255, 0, 0);
+		strokeWeight(2);
+
 		line(0, 0, 0, -this.dna[1] * 25);
 		ellipse(0, 0, this.dna[3] * 2, this.dna[3] * 2);
 
@@ -130,6 +133,7 @@ class Vehicle {
 		fill(col);
 		stroke(col);
 		strokeWeight(1);
+
 		beginShape();
 		vertex(0, -this.radius * 2);
 		vertex(-this.radius, this.radius * 2);
