@@ -1,0 +1,37 @@
+<!DocType HTML>
+
+<HTML>
+	<Head>
+		<Meta Charset = "UTF-8" />
+		<Title>Controller | Autonomous</Title>
+
+		<Script Src = "libraries/p5.js"></Script>
+		<Script Src = "libraries/p5.dom.js"></Script>
+		<Script Src = "libraries/p5.sound.js"></Script>
+		<Script Src = "libraries/DOM Extender v3.4.js"></Script>
+
+		<Script Defer = "Defer">
+			window.addEventListener("DOMContentLoaded", () => {
+				document.querySelector("#accept").addEventListener("click", () => {
+					opener.summon(new DOM("#foodWeight").value, new DOM("#poisonWeight").value, new DOM("#foodPerception").value, new DOM("#poisonPerception").value);
+				});
+			});
+		</Script>
+
+		<Style>
+			Body {
+				Display: Flex;
+				Flex-Direction: Column;
+			}
+		</Style>
+	</Head>
+
+	<Body>
+		<Input ID = "foodWeight" Type = "Number" Value = "0" PlaceHolder = "foodWeight" />
+		<Input ID = "poisonWeight" Type = "Number" Value = "0" PlaceHolder = "poisonWeight" />
+		<Input ID = "foodPerception" Type = "Number" Value = "0" PlaceHolder = "foodPerception" />
+		<Input ID = "poisonPerception" Type = "Number" Value = "0" PlaceHolder = "poisonPerception" />
+
+		<Button ID = "accept">Summon</Button>
+	</Body>
+</HTML>

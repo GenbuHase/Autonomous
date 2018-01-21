@@ -2,49 +2,27 @@ const mr = 0.01;
 
 class Vehicle {
 	constructor (x = 0, y = 0, dna) {
+		this.position = createVector(x, y);
 		this.acceleration = createVector(0, 0);
 		this.velocity = createVector(0, -2);
-		this.position = createVector(x, y);
-		this.r = 4;
-		this.maxspeed = 5;
-		this.maxforce = 0.5;
 
 		this.health = 1;
 
-		this.dna = [];
-
 		if (!dna) {
-			// food weight
-			this.dna[0] = random(-2, 2);
-			// poison weight
-			this.dna[1] = random(-2, 2);
-			// food perception
-			this.dna[2] = random(0, 100);
-			// poison perception
-			this.dna[3] = random(0, 100);
+			this.dna = new DNA(random(-2, 2), random(-2, 2), random(0, 100), random(0, 100));
 		} else {
-			this.dna[0] = dna[0];
-			if (random(1) < mr) {
-				this.dna[0] += random(-0.1, 0.1);
-			}
+			this.dna = dna;
 			
-			this.dna[1] = dna[1];
-			if (random(1) < mr) {
-				this.dna[1] += random(-0.1, 0.1);
-			}
-
-			this.dna[2] = dna[2];
-			if (random(2) < mr) {
-				this.dna[0] += random(-10, 10);
-			}
-
-			this.dna[3] = dna[3];
-			if (random(3) < mr) {
-				this.dna[1] += random(-10, 10);
-			}
+			if (random(1) < mr) this.dna[0] += random(-0.1, 0.1);
+			if (random(1) < mr) this.dna[1] += random(-0.1, 0.1);
+			if (random(2) < mr) this.dna[0] += random(-10, 10);
+			if (random(3) < mr) this.dna[1] += random(-10, 10);
 		}
 	}
 
+	get radius () { return 4 }
+	get maxSpeed () { return 5 }
+	get maxForce () { return 0.5 }
 	get isDead () { return this.health < 0 }
 
 	// Method to update location
@@ -54,7 +32,7 @@ class Vehicle {
 		// Update velocity
 		this.velocity.add(this.acceleration);
 		// Limit speed
-		this.velocity.limit(this.maxspeed);
+		this.velocity.limit(this.maxSpeed);
 		this.position.add(this.velocity);
 		// Reset accelerationelertion to 0 each cycle
 		this.acceleration.mult(0);
@@ -91,7 +69,7 @@ class Vehicle {
 		for (let i = list.length - 1; i >= 0; i--) {
 			let d = this.position.dist(list[i]);
 
-			if (d < this.maxspeed) {
+			if (d < this.maxSpeed) {
 				list.splice(i, 1);
 				this.health += nutrition;
 			} else {
@@ -117,11 +95,11 @@ class Vehicle {
 		let desired = p5.Vector.sub(target, this.position); // A vector pointing from the location to the target
 
 		// Scale to maximum speed
-		desired.setMag(this.maxspeed);
+		desired.setMag(this.maxSpeed);
 
 		// Steering = Desired minus velocity
 		let steer = p5.Vector.sub(desired, this.velocity);
-		steer.limit(this.maxforce); // Limit to maximum steering force
+		steer.limit(this.maxForce); // Limit to maximum steering force
 
 		return steer;
 		// this.applyForce(steer);
@@ -153,9 +131,9 @@ class Vehicle {
 		stroke(col);
 		strokeWeight(1);
 		beginShape();
-		vertex(0, -this.r * 2);
-		vertex(-this.r, this.r * 2);
-		vertex(this.r, this.r * 2);
+		vertex(0, -this.radius * 2);
+		vertex(-this.radius, this.radius * 2);
+		vertex(this.radius, this.radius * 2);
 		endShape(CLOSE);
 
 		pop();
@@ -166,23 +144,23 @@ class Vehicle {
 		let d = 25;
 
 		if (this.position.x < d) {
-			desired = createVector(this.maxspeed, this.velocity.y);
+			desired = createVector(this.maxSpeed, this.velocity.y);
 		} else if (this.position.x > width - d) {
-			desired = createVector(-this.maxspeed, this.velocity.y);
+			desired = createVector(-this.maxSpeed, this.velocity.y);
 		}
 
 		if (this.position.y < d) {
-			desired = createVector(this.velocity.x, this.maxspeed);
+			desired = createVector(this.velocity.x, this.maxSpeed);
 		} else if (this.position.y > height - d) {
-			desired = createVector(this.velocity.x, -this.maxspeed);
+			desired = createVector(this.velocity.x, -this.maxSpeed);
 		}
 
 		if (desired !== null) {
 			desired.normalize();
-			desired.mult(this.maxspeed);
+			desired.mult(this.maxSpeed);
 
 			let steer = p5.Vector.sub(desired, this.velocity);
-			steer.limit(this.maxforce);
+			steer.limit(this.maxForce);
 			this.applyForce(steer);
 		}
 	}

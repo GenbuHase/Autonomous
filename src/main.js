@@ -18,6 +18,16 @@ function setup() {
 	for (let i = 0; i < 20; i++) {
 		poison.push(createVector(random(width), random(height)));
 	}
+
+
+
+	window.open("./Controller.html", "Controller", [
+		`Width=${width / 5 * 3}`,
+		`Height=${height / 8 * 3}`,
+		
+		"Left=0",
+		"Top=0"
+	].join(", "));
 }
 
 function mouseDragged() {
@@ -35,7 +45,6 @@ function draw() {
 	if (random(1) < 0.01) {
 		poison.push(createVector(random(width), random(height)));
 	}
-
 
 	for (let i = 0; i < food.length; i++) {
 		fill(0, 255, 0);
@@ -68,3 +77,5 @@ function draw() {
 		}
 	}
 }
+
+window.summon = (foodWeight, poisonWeight, foodPerception, poisonPerception) => vehicles.push(new Vehicle(random(width), random(height), new DNA(foodWeight, poisonWeight, foodPerception, poisonPerception)))
