@@ -4,7 +4,13 @@ const vehicles = [];
 const food = [];
 const poison = [];
 
+let IMAGE_SUUMO = null;
+
 let isPaused = false;
+
+function preload () {
+	IMAGE_SUUMO = loadImage("images/suumo.png");
+}
 
 function setup() {
 	createCanvas(windowWidth, windowHeight);
@@ -58,8 +64,10 @@ function draw() {
 		}
 
 		for (let i = 0; i < food.length; i++) {
-			fill(0, 255, 0);
-			ellipse(food[i].x, food[i].y, 8, 8);
+			/*fill(0, 255, 0);
+			ellipse(food[i].x, food[i].y, 8, 8);*/
+
+			image(IMAGE_SUUMO, food[i].x - 10, food[i].y - 10, 20, 20);
 		}
 
 		for (let i = 0; i < poison.length; i++) {
