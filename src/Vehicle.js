@@ -23,7 +23,13 @@ class Vehicle {
 	get radius () { return 4 }
 	get maxSpeed () { return 5 }
 	get maxForce () { return 0.5 }
-	get isDead () { return this.health < 0 }
+
+	get isDead () {
+		let isDead = this.health < 0;
+		if (isDead) new Audio(`https://hnakai0909.github.io/works/suumo/audio/suumo_${Math.floor(Math.random() * 18)}.mp3`).play();
+
+		return isDead;
+	}
 
 	// Method to update location
 	update () {
