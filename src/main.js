@@ -1,5 +1,3 @@
-"use strict";
-
 const vehicles = [];
 const food = [];
 const poison = [];
@@ -16,7 +14,7 @@ function setup() {
 	createCanvas(windowWidth, windowHeight);
 
 	for (let i = 0; i < 10; i++) {
-		vehicles[i] = new Vehicle(random(width), random(height));
+		vehicles[i] = new Suumo(random(width), random(height));
 	}
 
 	for (let i = 0; i < 40; i++) {
@@ -41,7 +39,7 @@ function setup() {
 }
 
 function mouseDragged() {
-	vehicles.push(new Vehicle(mouseX, mouseY));
+	vehicles.push(new Suumo(mouseX, mouseY));
 }
 
 function keyPressed (event) {
@@ -64,10 +62,10 @@ function draw() {
 		}
 
 		for (let i = 0; i < food.length; i++) {
-			/*fill(0, 255, 0);
-			ellipse(food[i].x, food[i].y, 8, 8);*/
+			fill(0, 255, 0);
+			ellipse(food[i].x, food[i].y, 8, 8);
 
-			image(IMAGE_SUUMO, food[i].x - 10, food[i].y - 10, 20, 20);
+			//image(IMAGE_SUUMO, food[i].x - 10, food[i].y - 10, 20, 20);
 		}
 
 		for (let i = 0; i < poison.length; i++) {
