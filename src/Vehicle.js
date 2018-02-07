@@ -26,7 +26,7 @@ class Vehicle {
 
 	get isDead () {
 		let isDead = this.health < 0;
-		if (isDead) new Audio(`https://hnakai0909.github.io/works/suumo/audio/suumo_${Math.floor(Math.random() * 18)}.mp3`).play();
+		if (isDead) new Audio(`sounds/suumo_${Math.floor(Math.random() * 18)}.mp3`).play();
 
 		return isDead;
 	}
