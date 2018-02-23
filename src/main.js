@@ -7,9 +7,8 @@ let isPaused = false;
 function setup() {
 	createCanvas(windowWidth, windowHeight);
 
-	for (let i = 0; i < 10; i++) {
-		vehicles[i] = new Male(random(width), random(height));
-	}
+	vehicles.push(new Male(random(width), random(height))),
+	vehicles.push(new Female(random(width), random(height)));
 
 	for (let i = 0; i < 40; i++) {
 		food.push(createVector(random(width), random(height)));
