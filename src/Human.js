@@ -1,3 +1,5 @@
+//食物減少時、食物を生成し始めるように
+//全体の人数が少ないとき、積極的に結婚するように
 class Human extends Vehicle {
 	constructor (x = 0, y = 0, dna) {
 		super(x, y, dna);

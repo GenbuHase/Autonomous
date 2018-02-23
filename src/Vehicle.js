@@ -1,3 +1,4 @@
+//循環構造の見直し・1から手直し
 class Vehicle {
 	static get MUTATIONRATE () { return 0.01 }
 

@@ -1,3 +1,5 @@
+//食物のテクスチャ変更
+//毒の廃止？
 const vehicles = [];
 const food = [];
 const poison = [];
