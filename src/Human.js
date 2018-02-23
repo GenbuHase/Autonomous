@@ -11,6 +11,7 @@ class Human extends Vehicle {
 
 	marry (r = 255, g = 255, b = 255) {
 		this.familyColor = color(r, g, b);
+		M.toast({ html: "新たなカップルが誕生しました！" });
 	}
 
 	clone () {
