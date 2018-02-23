@@ -8,7 +8,7 @@ function setup() {
 	createCanvas(windowWidth, windowHeight);
 
 	for (let i = 0; i < 10; i++) {
-		vehicles[i] = new Human(random(width), random(height));
+		vehicles[i] = new Male(random(width), random(height));
 	}
 
 	for (let i = 0; i < 40; i++) {
@@ -33,7 +33,7 @@ function setup() {
 }
 
 function mouseDragged() {
-	vehicles.push(new Human(mouseX, mouseY));
+	vehicles.push(new Male(mouseX, mouseY));
 }
 
 function keyPressed (event) {
