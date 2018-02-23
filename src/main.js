@@ -2,19 +2,13 @@ const vehicles = [];
 const food = [];
 const poison = [];
 
-let IMAGE_SUUMO = null;
-
 let isPaused = false;
-
-function preload () {
-	IMAGE_SUUMO = loadImage("images/suumo.png");
-}
 
 function setup() {
 	createCanvas(windowWidth, windowHeight);
 
 	for (let i = 0; i < 10; i++) {
-		vehicles[i] = new Suumo(random(width), random(height));
+		vehicles[i] = new Human(random(width), random(height));
 	}
 
 	for (let i = 0; i < 40; i++) {
@@ -39,7 +33,7 @@ function setup() {
 }
 
 function mouseDragged() {
-	vehicles.push(new Suumo(mouseX, mouseY));
+	vehicles.push(new Human(mouseX, mouseY));
 }
 
 function keyPressed (event) {

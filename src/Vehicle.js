@@ -1,6 +1,6 @@
-const MUTATIONRATE = 0.01;
-
 class Vehicle {
+	static get MUTATIONRATE () { return 0.01 }
+
 	constructor (x = 0, y = 0, dna) {
 		this.position = createVector(x, y);
 		this.acceleration = createVector(0, 0);
@@ -13,13 +13,14 @@ class Vehicle {
 		} else {
 			this.dna = dna;
 			
-			if (random(1) < MUTATIONRATE) this.dna[0] += random(-0.1, 0.1);
-			if (random(1) < MUTATIONRATE) this.dna[1] += random(-0.1, 0.1);
-			if (random(2) < MUTATIONRATE) this.dna[2] += random(-10, 10);
-			if (random(2) < MUTATIONRATE) this.dna[3] += random(-10, 10);
+			if (random(1) < Vehicle.MUTATIONRATE) this.dna[0] += random(-0.1, 0.1);
+			if (random(1) < Vehicle.MUTATIONRATE) this.dna[1] += random(-0.1, 0.1);
+			if (random(2) < Vehicle.MUTATIONRATE) this.dna[2] += random(-10, 10);
+			if (random(2) < Vehicle.MUTATIONRATE) this.dna[3] += random(-10, 10);
 		}
 	}
 
+	get bodyColor () { return color(255, 255, 255) }
 	get radius () { return 4 }
 	get maxSpeed () { return 5 }
 	get maxForce () { return 0.5 }
@@ -114,22 +115,24 @@ class Vehicle {
 		rotate(theta);
 
 		noFill();
+
+		//Draw foodPerception
 		stroke(0, 255, 0);
 		strokeWeight(3);
-
 		line(0, 0, 0, -this.dna[0] * 25);
 		ellipse(0, 0, this.dna[2] * 2, this.dna[2] * 2);
 
+		//Draw poisonPerception
 		stroke(255, 0, 0);
 		strokeWeight(2);
-
 		line(0, 0, 0, -this.dna[1] * 25);
 		ellipse(0, 0, this.dna[3] * 2, this.dna[3] * 2);
 
+		//Draw body
 		let gr = color(0, 255, 0);
 		let rd = color(255, 0, 0);
 		let col = lerpColor(rd, gr, this.health);
-
+		
 		fill(col);
 		stroke(col);
 		strokeWeight(1);
