@@ -148,27 +148,32 @@ class Vehicle {
 	}
 
 	boundaries () {
-		let desired = null;
-		let d = 25;
+		let desired = null; // 壁を避ける向きのベクトル(強さ)
+		let d = 25; // d = edgeからのdistance
 
 		if (this.position.x < d) {
-			desired = createVector(this.maxSpeed, this.velocity.y);
+			// もし左端に近づいたら
+			desired = createVector(this.maxspeed, this.velocity.y);
 		} else if (this.position.x > width - d) {
-			desired = createVector(-this.maxSpeed, this.velocity.y);
+			//もし右端に近づいたら
+			desired = createVector(-this.maxspeed, this.velocity.y);
 		}
 
 		if (this.position.y < d) {
-			desired = createVector(this.velocity.x, this.maxSpeed);
+			// もし画面上に近づいたら
+			desired = createVector(this.velocity.x, this.maxspeed);
 		} else if (this.position.y > height - d) {
-			desired = createVector(this.velocity.x, -this.maxSpeed);
+			// もし画面下に近づいたら
+			desired = createVector(this.velocity.x, -this.maxspeed);
 		}
 
+		// 上記の条件(画面端)にいた場合
 		if (desired !== null) {
 			desired.normalize();
-			desired.mult(this.maxSpeed);
+			desired.mult(this.maxspeed);
 
 			let steer = p5.Vector.sub(desired, this.velocity);
-			steer.limit(this.maxForce);
+			steer.limit(this.maxforce);
 			this.applyForce(steer);
 		}
 	}

@@ -1,76 +1,44 @@
-//食物減少時、食物を生成し始めるように
-//全体の人数が少ないとき、積極的に結婚するように
-class Human extends Vehicle {
-	constructor (x = 0, y = 0, dna) {
-		super(x, y, dna);
-
-		this.health = 10;
-	}
-
-	get bodyColor () { return color(255, 255, 255) }
-
-	marry (r = 255, g = 255, b = 255) {
-		this.familyColor = color(r, g, b);
-		M.toast({ html: "新たなカップルが誕生しました！" });
-	}
-
-	clone () {
-		return null;
-	}
-
-	display () {
-		// Draw a triangle rotated in the direction of velocity
-		let theta = this.velocity.heading() + PI / 2;
-		
-		push();
-		translate(this.position.x, this.position.y);
-		rotate(theta);
-
-		noFill();
-
-		/*
-		//Draw foodWeight & foodPerception
-		stroke(0, 255, 0);
-		strokeWeight(3);
-		line(0, 0, 0, -this.dna[0] * 25);
-		ellipse(0, 0, this.dna[2] * 2, this.dna[2] * 2);
-
-		//Draw poisonWeight & poisonPerception
-		stroke(255, 0, 0);
-		strokeWeight(2);
-		line(0, 0, 0, -this.dna[1] * 25);
-		ellipse(0, 0, this.dna[3] * 2, this.dna[3] * 2);
-		*/
-
-		//Draw body
-		fill(this.bodyColor);
-		stroke(this.bodyColor);
-
-		beginShape();
-		vertex(-this.radius, -this.radius * 2);
-		vertex(this.radius, -this.radius * 2);
-		vertex(0, this.radius);
-		endShape(CLOSE);
-
-		//Draw health-Gauge
-		let gr = color(0, 255, 0),
-			rd = color(255, 0, 0),
-			col = lerpColor(rd, gr, this.health);
-
-		fill(col);
-		stroke(col);
-		strokeWeight(1);
-
-		ellipse(0, this.radius * 2, this.radius * 2, this.radius * 2);
-
-		noFill();
-
-		//Draw isMarried
-		if (this.familyColor) {
-			stroke(this.familyColor);
-			ellipse(0, 0, this.radius * 10, this.radius * 10);
+class Human {
+	static get Personality () {
+		return {
+			
 		}
+	}
 
-		pop();
+	constructor (x = 0, y = 0, dna) {
+		this.position = createVector(x, y);
+		this.acceleration = createVector(0, 0);
+		this.velocity = createVector(0, -2);
+
+		this.health = 1;
+
+		if (!dna) {
+			this.dna = new DNA(random(0, 100));
+		} else {
+			this.dna = dna;
+			
+			if (random(1) < Vehicle.MUTATIONRATE) this.dna[0] += random(-0.1, 0.1);
+			if (random(1) < Vehicle.MUTATIONRATE) this.dna[1] += random(-0.1, 0.1);
+			if (random(2) < Vehicle.MUTATIONRATE) this.dna[2] += random(-10, 10);
+			if (random(2) < Vehicle.MUTATIONRATE) this.dna[3] += random(-10, 10);
+		}
+	}
+
+	eat (foods) {
+		let currentFood = null,
+			currentFoodDistance = Infinity;
+
+		for (let i = foods.length - 1; i >= 0; i--) {
+			let dist = this.position.dist(foods[i]);
+
+			if (dist < this.maxSpeed) {
+				this.health += foods[i].nutrition;
+				foods.splice(i, 1);
+			} else {
+				if (currentFoodDistance < currentFood && currentFoodDistance) {
+
+				}
+			}
+		}
 	}
 }
