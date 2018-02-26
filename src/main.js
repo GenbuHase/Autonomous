@@ -45,10 +45,11 @@ function draw() {
 	}
 
 	for (let i = ANIMALS.length - 1; i >= 0; i--) {
-		ANIMALS[i].boundaries();
+		ANIMALS[i].decide();
+		/*ANIMALS[i].boundaries();
 		ANIMALS[i].behaviors(food, poison);
 		ANIMALS[i].update();
-		ANIMALS[i].display();
+		ANIMALS[i].display();*/
 		
 		if (ANIMALS[i].isDead) {
 			FOODS.push(new Food(ANIMALS[i].position.x, ANIMALS[i].position.y));

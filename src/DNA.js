@@ -1,5 +1,5 @@
 class DNA {
-	constructor (perception = 0, personality) {
+	constructor (perception = 0) {
 	}
 
 	get perception () { return this._perception }
