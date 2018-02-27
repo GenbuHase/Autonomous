@@ -1,7 +1,14 @@
 class DNA {
-	constructor (perception = 0) {
+	/**
+	 * Generate DNA.
+	 * @param {Object} [data={}] Collection of DNA-Data
+	 * @param {Male} data.father The human's father
+	 * @param {Female} data.mother The human's mother
+	 * @param {Number} data.maxHealth The human's maximum value of health
+	 */
+	constructor (data = {}) {
+		this.father = data.father,
+		this.mother = data.mother,
+		this.maxHealth = data.maxHealth;
 	}
-
-	get perception () { return this._perception }
-	set perception (val = 0) { this._perception = val }
 }

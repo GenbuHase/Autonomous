@@ -1,17 +1,17 @@
 //食物のテクスチャ変更
-//毒の廃止？
 const CONFIG = {
 	BACKGROUND: "#515151"
 };
 
+/** @type {Array<Human>} */
 const ANIMALS = [];
 const FOODS = [];
 
-function setup() {
+function setup () {
 	createCanvas(windowWidth, windowHeight);
 
-	//ANIMALS.push(new Male(random(width), random(height))),
-	//ANIMALS.push(new Female(random(width), random(height)));
+	ANIMALS.push(new Male(random(width), random(height))),
+	ANIMALS.push(new Female(random(width), random(height)));
 
 	for (let i = 0; i < 40; i++) {
 		FOODS.push(new Food(random(width), random(height)));
@@ -30,14 +30,14 @@ function setup() {
 	}
 }
 
-function mouseDragged() {
-	//ANIMALS.push(new Male(mouseX, mouseY));
+function mouseDragged () {
+	ANIMALS.push(random(2) <= 1 ? new Male(mouseX, mouseY) : new Female(mouseX, mouseY));
 }
 
-function draw() {
+function draw () {
 	background(CONFIG.BACKGROUND);
 
-	if (random(1) < 0.1) FOODS.push(new Food(random(width), random(height)));
+	//if (random(1) < 0.1) FOODS.push(new Food(random(width), random(height)));
 
 	for (let i = 0; i < FOODS.length; i++) {
 		fill(0, 255, 0);
@@ -48,8 +48,8 @@ function draw() {
 		ANIMALS[i].decide();
 		/*ANIMALS[i].boundaries();
 		ANIMALS[i].behaviors(food, poison);
-		ANIMALS[i].update();
-		ANIMALS[i].display();*/
+		ANIMALS[i].update();*/
+		ANIMALS[i].draw();
 		
 		if (ANIMALS[i].isDead) {
 			FOODS.push(new Food(ANIMALS[i].position.x, ANIMALS[i].position.y));
