@@ -37,7 +37,7 @@ function mouseDragged () {
 function draw () {
 	background(CONFIG.BACKGROUND);
 
-	//if (random(1) < 0.1) FOODS.push(new Food(random(width), random(height)));
+	if (random(1) < 0.1) FOODS.push(new Food(random(width), random(height)));
 
 	for (let i = 0; i < FOODS.length; i++) {
 		fill(0, 255, 0);
