@@ -1,8 +1,8 @@
 class Human {
 	static get GENDER () {
 		return {
-			MALE: Symbol("Male"),
-			FEMALE: Symbol("Female")
+			MALE: "GENDER_MALE",
+			FEMALE: "GENDER_FEMALE"
 		}
 	}
 
@@ -17,7 +17,7 @@ class Human {
 	 * @param {DNA} dna The human's DNA
 	 * @param {Number} age The human's age
 	 */
-	constructor (x = 0, y = 0, dna = new DNA(), age = 0) {
+	constructor (x = 0, y = 0, age = 0, dna = new DNA()) {
 		this.acceleration = createVector(0, 0);
 		this.velocity = createVector(0, -2);
 		this.position = createVector(x, y);
@@ -76,11 +76,20 @@ class Human {
 	}
 
 	getMostCompatibleWith () {
-		for (let id in ANIMALS) {
-			if (ANIMALS[i].gender !== this.gender) {
-				
-			}
+		let partners = ANIMALS.filter(human => human.gender != this.gender && human.age >= 18),
+			result = [null, 0];
+			
+		for (let i = 0; i < partners.length; i++) {
+			let score = 0;
+
+			partners[i].age > this.age ?
+				score += (partners[i].age - this.age) * 100 :
+			partners[i].age < this.age ?
+				score += (partners[i].age - this.age) * -200 :
+			score += 500;
 		}
+
+		return partners;
 	}
 
 	/**
@@ -98,10 +107,11 @@ class Human {
 		this.acceleration.mult(0);
 
 		this.health -= 0.01,
-		this.age 
+		this.age += 0.008;
 
 		switch (true) {
 			case this.age >= 18:
+				wander();
 				break;
 
 			case !!(this.currentFood):
@@ -211,8 +221,8 @@ class Human {
 		stroke(this.bodyColor);
 
 		beginShape();
-		vertex(-this.bodySize, -this.bodySize * 2);
-		vertex(this.bodySize, -this.bodySize * 2);
+		vertex(-this.bodySize * 2, -this.bodySize * 2);
+		vertex(this.bodySize * 2, -this.bodySize * 2);
 		vertex(0, this.bodySize);
 		endShape(CLOSE);
 

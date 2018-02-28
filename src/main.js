@@ -12,8 +12,8 @@ const FOODS = [];
 function setup () {
 	createCanvas(windowWidth, windowHeight);
 
-	ANIMALS.push(new Male(random(width), random(height))),
-	ANIMALS.push(new Female(random(width), random(height)));
+	ANIMALS.push(new Male(random(width), random(height), 18)),
+	ANIMALS.push(new Female(random(width), random(height), 18));
 
 	for (let i = 0; i < 40; i++) {
 		FOODS.push(new Food(random(width), random(height)));
