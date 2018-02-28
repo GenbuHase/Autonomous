@@ -3,5 +3,6 @@ class Male extends Human {
 		super(x, y, dna);
 	}
 
+	get gender () { return Human.GENDER.MALE }
 	get bodyColor () { return color(64, 192, 255) }
 }

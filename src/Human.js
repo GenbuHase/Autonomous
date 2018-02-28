@@ -1,4 +1,13 @@
 class Human {
+	static get GENDER () {
+		return {
+			MALE: Symbol("Male"),
+			FEMALE: Symbol("Female")
+		}
+	}
+
+
+
 	/**
 	 * Creates an instance of Human
 	 * 
@@ -6,20 +15,25 @@ class Human {
 	 * @param {Number} [x=0] The human's x-coord
 	 * @param {Number} [y=0] The human's y-coord
 	 * @param {DNA} dna The human's DNA
+	 * @param {Number} age The human's age
 	 */
-	constructor (x = 0, y = 0, dna = new DNA()) {
+	constructor (x = 0, y = 0, dna = new DNA(), age = 0) {
 		this.acceleration = createVector(0, 0);
 		this.velocity = createVector(0, -2);
-		
 		this.position = createVector(x, y);
-		this.dna = dna;
 
-		this.health = this.dna.maxHealth;
+		this.age = age,
+		this.maxHealth = this.health = dna.maxHealth,
+		this.fiance = null,
+		this.familyColor = null,
+		this.dna = dna;
 	}
 
-	get radius () { return 4 }
+	get bodySize () { return 4 }
 	get bodyColor () { return color(255, 255, 255) }
 	get perception () { return 2.0 }
+
+	get gender () { return null }
 
 	/** @type {Food} */
 	get currentFood () {
@@ -42,40 +56,14 @@ class Human {
 		return currentFood;
 	}
 
+	get isMarried () { return !!(this.fiance && this.familyColor) }
 	get isDead () { return this.health < 0 }
-
-	/**
-	 * Decides a next action
-	 * 
-	 * @memberof Human
-	 */
-	decide () {
-		// Update velocity
-		this.velocity.add(this.acceleration);
-		// Limit speed
-		this.velocity.limit(this.maxSpeed);
-		this.position.add(this.velocity);
-		// Reset acceleration to 0 each cycle
-		this.acceleration.mult(0);
-
-		this.health -= 0.01;
-
-		switch (true) {
-			case !!(this.currentFood):
-				this.eat();
-				break;
-
-			default:
-				this.wander();
-				break;
-		}
-	}
 
 	/**
 	 * Approaches the target
 	 * 
 	 * @memberof Human
-	 * @param {Vector} moveTo The target human will Approach
+	 * @param {Vector} moveTo The target I will Approach
 	 */
 	seek (moveTo) {
 		let route = p5.Vector.sub(moveTo, this.position); //A vector pointing from the location to the target
@@ -87,41 +75,57 @@ class Human {
 		this.acceleration.add(force);
 	}
 
+	getMostCompatibleWith () {
+		for (let id in ANIMALS) {
+			if (ANIMALS[i].gender !== this.gender) {
+				
+			}
+		}
+	}
+
 	/**
-	 * Avoids to be out of stage
+	 * Decides a next action
 	 * 
 	 * @memberof Human
 	 */
-	boundaries () {
-		let desired = null; // 壁を避ける向きのベクトル(強さ)
-		let d = 25; // d = edgeからのdistance
+	decide () {
+		// Updates velocity
+		this.velocity.add(this.acceleration);
+		// Limits speed
+		this.velocity.limit(this.maxSpeed);
+		this.position.add(this.velocity);
+		// Resets acceleration to 0 each cycle
+		this.acceleration.mult(0);
 
-		if (this.position.x < d) {
-			// もし左端に近づいたら
-			desired = createVector(this.dna.maxSpeed, this.velocity.y);
-		} else if (this.position.x > width - d) {
-			//もし右端に近づいたら
-			desired = createVector(-this.dna.maxSpeed, this.velocity.y);
+		this.health -= 0.01,
+		this.age 
+
+		switch (true) {
+			case this.age >= 18:
+				break;
+
+			case !!(this.currentFood):
+				this.eat();
+				break;
+
+			default:
+				this.wander();
+				break;
 		}
+	}
 
-		if (this.position.y < d) {
-			// もし画面上に近づいたら
-			desired = createVector(this.velocity.x, this.dna.maxSpeed);
-		} else if (this.position.y > height - d) {
-			// もし画面下に近づいたら
-			desired = createVector(this.velocity.x, -this.dna.maxSpeed);
-		}
-
-		// 上記の条件(画面端)にいた場合
-		if (desired !== null) {
-			desired.normalize();
-			desired.mult(this.dna.maxSpeed);
-
-			let steer = p5.Vector.sub(desired, this.velocity);
-				steer.limit(this.dna.maxForce);
-
-			this.acceleration.add(steer);
-		}
+	/**
+	 * Gets marriage with my fiance
+	 * 
+	 * @memberof Human
+	 * @param {Human} fiance The human who will marry me
+	 * @param {Number} [familyR=255] Red color of familyColor
+	 * @param {Number} [familyG=255] Green color of familyColor
+	 * @param {Number} [familyB=255] Blue color of familyColor
+	 */
+	marry (fiance, familyR = 255, familyG = 255, familyB = 255) {
+		this.fiance = fiance,
+		this.familyColor = color(familyR, familyG, familyB);
 	}
 
 	/**
@@ -143,12 +147,49 @@ class Human {
 	}
 
 	/**
+	 * Avoids to be out of stage
+	 * 
+	 * @memberof Human
+	 */
+	boundaries () {
+		let desired = null; //壁を避ける向きのベクトル(強さ)
+		let d = 25; //d = edgeからのdistance
+
+		if (this.position.x < d) {
+			//もし左端に近づいたら
+			desired = createVector(this.dna.maxSpeed, this.velocity.y);
+		} else if (this.position.x > width - d) {
+			//もし右端に近づいたら
+			desired = createVector(-this.dna.maxSpeed, this.velocity.y);
+		}
+
+		if (this.position.y < d) {
+			//もし画面上に近づいたら
+			desired = createVector(this.velocity.x, this.dna.maxSpeed);
+		} else if (this.position.y > height - d) {
+			//もし画面下に近づいたら
+			desired = createVector(this.velocity.x, -this.dna.maxSpeed);
+		}
+
+		//上記の条件(画面端)にいた場合
+		if (desired !== null) {
+			desired.normalize();
+			desired.mult(this.dna.maxSpeed);
+
+			let steer = p5.Vector.sub(desired, this.velocity);
+				steer.limit(this.dna.maxForce);
+
+			this.acceleration.add(steer);
+		}
+	}
+
+	/**
 	 * Draws myself
 	 * 
 	 * @memberof Human
 	 */
 	draw () {
-		// Draw a triangle rotated in the direction of velocity
+		//Draws a triangle rotated in the direction of velocity
 		let theta = this.velocity.heading() + PI / 2;
 		
 		push();
@@ -158,24 +199,24 @@ class Human {
 		noFill();
 
 		/*
-		//Draw foodWeight & foodPerception
+		//Draws foodWeight & foodPerception
 		stroke(0, 255, 0);
 		strokeWeight(3);
 		line(0, 0, 0, -this.dna[0] * 25);
 		ellipse(0, 0, this.dna[2] * 2, this.dna[2] * 2);
 		*/
 
-		//Draw body
+		//Draws body
 		fill(this.bodyColor);
 		stroke(this.bodyColor);
 
 		beginShape();
-		vertex(-this.radius, -this.radius * 2);
-		vertex(this.radius, -this.radius * 2);
-		vertex(0, this.radius);
+		vertex(-this.bodySize, -this.bodySize * 2);
+		vertex(this.bodySize, -this.bodySize * 2);
+		vertex(0, this.bodySize);
 		endShape(CLOSE);
 
-		//Draw health-Gauge
+		//Draws health-Gauge
 		let gr = color(0, 255, 0),
 			rd = color(255, 0, 0),
 			col = lerpColor(rd, gr, this.health);
@@ -184,14 +225,14 @@ class Human {
 		stroke(col);
 		strokeWeight(1);
 
-		ellipse(0, this.radius * 2, this.radius * 2, this.radius * 2);
+		ellipse(0, this.bodySize * 2, this.bodySize * 2, this.bodySize * 2);
 
 		noFill();
 
-		//Draw isMarried
-		if (this.familyColor) {
+		//Draws that I've been married
+		if (this.isMarried) {
 			stroke(this.familyColor);
-			ellipse(0, 0, this.radius * 10, this.radius * 10);
+			ellipse(0, 0, this.bodySize * 10, this.bodySize * 10);
 		}
 
 		pop();
