@@ -5,6 +5,8 @@ const CONFIG = {
 
 /** @type {Array<Human>} */
 const ANIMALS = [];
+
+/** @type {Array<Food>} */
 const FOODS = [];
 
 function setup () {

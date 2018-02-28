@@ -1,6 +1,8 @@
 class DNA {
 	/**
-	 * Generate DNA.
+	 * Generates DNA
+	 * 
+	 * @memberof DNA
 	 * @param {Object} [data={}] Collection of DNA-Data
 	 * @param {Male} data.father The human's father
 	 * @param {Female} data.mother The human's mother

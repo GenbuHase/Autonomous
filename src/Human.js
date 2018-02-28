@@ -1,6 +1,8 @@
 class Human {
 	/**
-	 * Generate Human
+	 * Creates an instance of Human
+	 * 
+	 * @memberof Human
 	 * @param {Number} [x=0] The human's x-coord
 	 * @param {Number} [y=0] The human's y-coord
 	 * @param {DNA} dna The human's DNA
@@ -43,7 +45,9 @@ class Human {
 	get isDead () { return this.health < 0 }
 
 	/**
-	 * Decide a next action.
+	 * Decides a next action
+	 * 
+	 * @memberof Human
 	 */
 	decide () {
 		// Update velocity
@@ -56,13 +60,21 @@ class Human {
 
 		this.health -= 0.01;
 
-		if (this.currentFood) {
-			this.eat();
+		switch (true) {
+			case !!(this.currentFood):
+				this.eat();
+				break;
+
+			default:
+				this.wander();
+				break;
 		}
 	}
 
 	/**
-	 * Approach the target
+	 * Approaches the target
+	 * 
+	 * @memberof Human
 	 * @param {Vector} moveTo The target human will Approach
 	 */
 	seek (moveTo) {
@@ -76,7 +88,9 @@ class Human {
 	}
 
 	/**
-	 * Avoid to be out of stage
+	 * Avoids to be out of stage
+	 * 
+	 * @memberof Human
 	 */
 	boundaries () {
 		let desired = null; // 壁を避ける向きのベクトル(強さ)
@@ -111,27 +125,27 @@ class Human {
 	}
 
 	/**
-	 * Approach currentFood to eat
+	 * Approaches currentFood to eat
+	 * 
+	 * @memberof Human
 	 */
 	eat () {
 		this.seek(this.currentFood);
-
-		/*for (let i = foods.length - 1; i >= 0; i--) {
-			let dist = this.position.dist(foods[i]);
-
-			if (dist < this.maxSpeed) {
-				this.health += foods[i].nutrition;
-				foods.splice(i, 1);
-			} else {
-				if (dist < this.dna.perception && dist < currentFoodDistance) {
-
-				}
-			}
-		}*/
 	}
 
 	/**
-	 * Draw myself.
+	 * Wanders to do any actions
+	 * 
+	 * @memberof Human
+	 */
+	wander () {
+		this.seek(createVector(random(width), random(height)));
+	}
+
+	/**
+	 * Draws myself
+	 * 
+	 * @memberof Human
 	 */
 	draw () {
 		// Draw a triangle rotated in the direction of velocity
